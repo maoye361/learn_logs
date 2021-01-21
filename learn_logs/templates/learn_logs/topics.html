@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>topics</title>
+</head>
+<body>
+{% extends "learn_logs/base.html" %}
+{% block header %}
+    <h1>Topic</h1>
+{% endblock header %}
+{% block content %}
+        <!-- 下面标签的learn_logs:topic中的topic是urls.py中自定义的正则匹配的name，有了name后就可以找到对应的路由，
+        并且把topic_id传入路由中，找到路由后会去找view函数，把topic_id也传入到view中对应的函数里，再根据参数获取对应
+        表的外键，获取字段-->
+    <div class="panel-heading">
+                <h3>
+                    <small>
+                        <a href="{% url 'learn_logs:new_topic' %}">add new topic</a>
+                    </small>
+                    <small>
+                        <a href="{% url 'learn_logs:addfile' %}">addfile</a>
+                    </small>
+                </h3>
+    </div>
+    {% for topic in topics %}
+     <div class="panel panel-default">
+            <div class="panel-body">
+                <a href="{%url 'learn_logs:topic' topic.id %}"> {{topic}}</a>
+                <small>
+                        <a href="{% url 'learn_logs:delete_topic' topic.id %}">delete topic</a>
+                </small>
+            </div>
+        </div>
+
+    {% empty %}
+        NO topic have been added yet.
+    {% endfor %}
+    {% for file in files %}
+     <div class="panel panel-default">
+            <div class="panel-body">
+                <small>
+                        {{file.name}}
+                </small>
+            </div>
+     </div>
+
+    {% empty %}
+        NO topic have been added yet.
+    {% endfor %}
+
+{% endblock content %}
+</body>
+</html>
